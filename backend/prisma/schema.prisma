@@ -45,6 +45,8 @@ model Utilisateur {
   departement String?
   poste       String?
   service     String?
+  resetToken  String?
+  resetTokenExpiration DateTime?
   dateCreation DateTime @default(now())
   dateModification DateTime @updatedAt
 
