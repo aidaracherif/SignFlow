@@ -6,10 +6,93 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Utilisateur {
+  id     Int     @id @default(autoincrement())
+  nom    String
+  prenom String
+  email  String  @unique
+  role   Role
+  employe Employe?
+  client Client?
+  agent Agent?
+  responsableRH ResponsableRH?
+  administrateur Administrateur?
+}
+
+enum Role {
+  employe
+  responsable_rh
+  agent
+  client
+  administrateur
+}
+
+model Employe {
+  utilisateur_id Int @id
+  utilisateur    Utilisateur @relation(fields: [utilisateur_id], references: [id], onDelete: Cascade)
+  departement    String
+  poste          String
+  telephone      String
+  demandes       DemandeConge[]
+}
+
+model DemandeConge {
+  id             Int      @id @default(autoincrement())
+  employe_id     Int
+  employe        Employe  @relation(fields: [employe_id], references: [utilisateur_id])
+  date_debut     DateTime
+  date_fin       DateTime
+  typeCongeId    Int
+  typeConge      TypeConge @relation(fields: [typeCongeId], references: [id])
+  motif          String
+  status         StatutConge @default(EN_ATTENTE)
+  document       Document? @relation(fields: [documentId], references: [id])
+  documentId     Int?
+}
+
+model TypeConge {
+  id               Int     @id @default(autoincrement())
+  nom              String  @unique
+  description      String?
+  duree_max        Int?
+  actif            Boolean @default(true)
+  date_creation    DateTime @default(now())
+  date_modification DateTime?
+  demandes         DemandeConge[]
+}
+
+model Document {
+  id             Int     @id @default(autoincrement())
+  titre          String?
+  description    String?
+  chemin_fichier String?
+  status         StatutDocument @default(BROUILLON)
+  url_signature  String?
+  date_creation  DateTime @default(now())
+  demandeConge   DemandeConge?
+  contratClient  ContratClient?
+  signatures     Signature[]
+}
+
+enum StatutDocument {
+  BROUILLON
+  ENVOYE
+  SIGNE
+  REFUSE
+  ARCHIVE
+}
+
+enum StatutConge {
+  EN_ATTENTE
+  APPROUVEE
+  REJETEE
+  SIGNEE
+  ARCHIVEE
 }
