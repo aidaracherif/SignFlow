@@ -32,7 +32,7 @@ const createUtilisateur = async (req, res) => {
       nom,
       prenom,
       email,
-      motDePasse: hashedPassword, // initialisé mais sera changé plus tard
+      motDePasse: hashedPassword, 
       role,
       resetToken: token,
       resetTokenExpiration: expiry
@@ -66,7 +66,7 @@ const createUtilisateur = async (req, res) => {
 
     const newUser = await prisma.utilisateur.create({ data });
 
-    // ✅ Envoi du mail avec lien de réinitialisation
+    //Envoi du mail avec lien de réinitialisation
     await sendPasswordResetEmail(email, token);
 
     res.status(201).json({
@@ -79,7 +79,7 @@ const createUtilisateur = async (req, res) => {
   }
 };
 
-// ✅ Réinitialisation du mot de passe
+//Réinitialisation du mot de passe
 const resetPassword = async (req, res) => {
   const { token } = req.params;
   const { newPassword } = req.body;
@@ -111,7 +111,7 @@ const resetPassword = async (req, res) => {
   res.json({ message: 'Mot de passe défini avec succès' });
 };
 
-// ✅ Connexion
+//Connexion
 const login = async (req, res) => {
   const { email, motDePasse } = req.body;
 
