@@ -57,11 +57,16 @@ model Utilisateur {
 model Client {
   id           Int       @id @default(autoincrement())
   nom          String
-  prenom       String
-  email        String    @unique
-  telephone    String
-  adresse      String
-  dateNaissance DateTime
+  secteurActivite String?
+  numeroIdentification String?
+  email        String?    @unique
+  telephone    String?
+  adresse      String?
+  siteWeb      String?
+  contactNom  String?
+  contactFonction String?
+  contactEmail String?
+  contactTelephone String?
   dateCreation DateTime  @default(now())
 
   documents   Document[]
@@ -72,7 +77,6 @@ model Document {
   typeDocument  TypeDoc
   titre         String
   description   String?
-  pathDocument  String
   status        Status
   urlSignature  String?
   dateCreation   DateTime  @default(now())
@@ -90,7 +94,7 @@ model Document {
 
   //champs pour contrat
   objetContrat  String?
-  duree         DateTime?
+  duree         String?
   montant       Float?
   conditionGenerale String?
 

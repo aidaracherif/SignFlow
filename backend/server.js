@@ -4,7 +4,7 @@ const app = express();
 const utilisateurRoutes = require('./src/routes/utilisateurRoutes');
 const documentRoutes = require('./src/routes/documentRoutes');
 const clientRoutes = require('./src/routes/clientRoutes');
-const archivageRoutes = require('./src/routes/archivageRoutes');
+
 
 
 
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use('/api', utilisateurRoutes);
 app.use('/api', documentRoutes);
 app.use('/api', clientRoutes);
-// app.use('/api', archivageRoutes);
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

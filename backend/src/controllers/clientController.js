@@ -5,15 +5,19 @@ const createClient = async (req, res) => {
     try {
         const {
             nom,
-            prenom,
+            secteurActivite,
+            numeroIdentification,
             email,
             telephone,
             adresse,
-            dateNaissance,
+            siteWeb,
+            contactNom,
+            contactFonction,
+            contactTelephone,
         } = req.body;
 
-        if (!nom || !prenom || !email || !telephone || !adresse || !dateNaissance) {
-            return res.status(400).json({message: "Champs obligatoires manquants" });
+        if (!nom || !secteurActivite || !numeroIdentification || !email || !telephone || !adresse ||  !siteWeb||!contactNom || !contactFonction || !contactTelephone) {
+            return res.status(400).json({message: "Champs obligatoires manquants ???" });
         }
 
         const existingClient = await prisma.client.findUnique({
@@ -27,11 +31,15 @@ const createClient = async (req, res) => {
         const newClient = await prisma.client.create({
             data: {
                 nom,
-                prenom,
+                secteurActivite,
+                numeroIdentification,
                 email,
                 telephone,
                 adresse,
-                dateNaissance: new Date(dateNaissance),
+                siteWeb,
+                contactNom,
+                contactFonction,
+                contactTelephone,
             }
         });
 
