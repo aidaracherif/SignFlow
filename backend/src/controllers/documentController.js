@@ -1,5 +1,9 @@
-const { PrismaClient, TypeConge, TypeDoc } = require('@prisma/client');
+const { PrismaClient, TypeDoc } = require('@prisma/client');
 const prisma = new PrismaClient();
+const { generateContratPDF } = require('../services/pdfService');
+const path = require('path');
+const fs = require('fs');
+
 
 const createDocument = async (req, res) => {
     try {
@@ -7,7 +11,6 @@ const createDocument = async (req, res) => {
             typeDocument,
             titre,
             description,
-            pathDocument,
             status,
             idClient,
             idAgent,
@@ -22,7 +25,7 @@ const createDocument = async (req, res) => {
             motif
         } = req.body;
 
-        if (!typeDocument || !titre || !pathDocument || !status) {
+        if (!typeDocument || !titre  || !status) {
             return res.status(400).json({ message: "Champs obligatoires manqunats"});
         }
 
@@ -30,13 +33,12 @@ const createDocument = async (req, res) => {
             typeDocument,
             titre,
             description,
-            pathDocument,
             status,
             idClient,
             idAgent,
             idEmploye,
             objetContrat,
-            duree: duree ? new Date(duree) : undefined,
+            duree: duree || undefined,
             montant,
             conditionGenerale,
             dateDebut: dateDebut ? new Date(dateDebut) : undefined,
@@ -45,13 +47,13 @@ const createDocument = async (req, res) => {
             motif
         };
         if (typeDocument === TypeDoc.CONTRAT) {
-            if (!objetContrat || !duree || !montant || !conditionGenerale) {
+            if (!objetContrat || !duree || !montant) {
                 return res.status(400).json({ message: "Champs obligatoires manquants pour le type de document contrat" });
             }
             data.objetContrat = objetContrat;
-            data.duree = new Date(duree);
+            data.duree = duree;
             data.montant = montant;
-            data.conditionGenerale = conditionGenerale;
+            // data.conditionGenerale = conditionGenerale;
         } 
         else if (typeDocument === TypeDoc.CONGE) {
             if (!dateDebut || !dateFin || !typeConge || !motif) {
@@ -109,7 +111,6 @@ const archiveDocument = async (req, res) => {
             return res.status(400).json({ message: 'Le document est déjà archivé.' });
         }
 
-        // Créer un enregistrement dans la table ServiceArchivage
         await prisma.serviceArchivage.create({
             data: {
                 idDocument: parseInt(id),
@@ -117,7 +118,6 @@ const archiveDocument = async (req, res) => {
             }
         });
 
-        // Mettre à jour le champ archived dans Document
         const updatedDocument = await prisma.document.update({
             where: { id: parseInt(id) },
             data: {
@@ -173,10 +173,72 @@ const getActiveDocuments = async (req, res) => {
     }
 };
 
+const generateContrat = async (req, res) => {
+    const documentId = parseInt(req.params.id);
+
+    try {
+        const document = await prisma.document.findUnique({
+            where: { id: documentId },
+            include: {
+                client: true,
+                agent: true,
+                employe: true
+            }
+        });
+
+        if (!document) {
+            return res.status(404).json({ message: 'Document introuvable.' });
+        }
+
+        const contratData = {
+            titre: document.titre,
+            description: document.description,
+            objetContrat: document.objetContrat,
+            duree: document.duree,
+            montant: document.montant,
+            conditionGenerale: document.conditionGenerale,
+            dateCreation: document.dateCreation,
+            client: {
+                nom: document.client?.nom || "Nom manquant",
+                sercteurActivite: document.client?.sercteurActivite || "Secteur non précisé",
+                numeroidentification: document.client?.numeroidentification || "Non fourni",
+                adresse: document.client?.adresse || "Adresse manquante",
+                telephone: document.client?.telephone || "Téléphone manquant",
+                email: document.client?.email || "Email manquant",
+                siteWeb: document.client?.siteWeb || "Non renseigné",
+                contactNom: document.client?.contactNom || "Non renseigné",
+                contactFonction: document.client?.contactFonction || "Non précisée",
+                contactEmail: document.client?.contactEmail || "Non renseigné"
+            }
+        };
+
+        const pdfDir = path.join(__dirname, '../pdfs');
+        if (!fs.existsSync(pdfDir)) {
+            fs.mkdirSync(pdfDir);
+        }
+
+        const fileName = `contrat_${document.id}_${Date.now()}.pdf`;
+        const outputPath = path.join(pdfDir, fileName);
+
+        await generateContratPDF(contratData, outputPath);
+
+        return res.download(outputPath, fileName); 
+    } catch (error) {
+        console.error("Erreur lors de la génération du contrat :", error);
+        return res.status(500).json({ message: "Erreur lors de la génération du contrat." });
+    }
+};
+
+const formatDuree = (dateObj) => {
+    if (!dateObj) return 'Duree non precisee';
+    return new Date(dateObj).toLocaleDateString('fr-FR')
+};
+
 module.exports = {
     createDocument,
     getDocuments,
     getArchiveDocuments,
     getActiveDocuments,
-    archiveDocument
+    archiveDocument,
+    generateContrat
 };
