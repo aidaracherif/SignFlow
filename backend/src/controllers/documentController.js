@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 const { generateContratPDF } = require('../services/pdfService');
 const path = require('path');
 const fs = require('fs');
+const { envoyerDocumentPourSignature } = require('../services/emSignerService');
 
 
 const createDocument = async (req, res) => {
@@ -217,7 +218,7 @@ const generateContrat = async (req, res) => {
             fs.mkdirSync(pdfDir);
         }
 
-        const fileName = `contrat_${document.id}_${Date.now()}.pdf`;
+        const fileName = `contrat_${document.id}.pdf`;
         const outputPath = path.join(pdfDir, fileName);
 
         await generateContratPDF(contratData, outputPath);
@@ -234,11 +235,26 @@ const formatDuree = (dateObj) => {
     return new Date(dateObj).toLocaleDateString('fr-FR')
 };
 
+const envoyerPourSignature = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const resultat = await envoyerDocumentPourSignature(id);
+        res.status(200).json({
+            message: "Document envoye pour signature via Emsigner",
+            resultat
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message});
+    }
+};
+
+
 module.exports = {
     createDocument,
     getDocuments,
     getArchiveDocuments,
     getActiveDocuments,
     archiveDocument,
-    generateContrat
+    generateContrat,
+    envoyerPourSignature,
 };
