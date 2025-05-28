@@ -104,6 +104,7 @@ model Document {
   typeConge     TypeConge?
   motif         String?
 
+  workflowId    Int?
   //Archivage
   archivage    ServiceArchivage?
 

@@ -13,7 +13,7 @@ const signerDocumentCloudSign = async (documentId) => {
     const fileName = `contrat_${documentId}.pdf`;
     const filePath = path.join(__dirname, '../pdfs', fileName);
 
-    // Vérification que le fichier existe
+   
     await fs.promises.access(filePath, fs.constants.F_OK);
 
     const form = new FormData();
@@ -25,7 +25,7 @@ const signerDocumentCloudSign = async (documentId) => {
     const httpsAgent = new https.Agent({
       pfx: fs.readFileSync(CERTIFICAT_PATH),
       passphrase: process.env.CERTIFICATE_PASSWORD,
-      rejectUnauthorized: false, // à désactiver en prod si possible
+      rejectUnauthorized: false, 
     });
 
     const url = `${CLOUD_SIGN_API_URL}/${process.env.ID_SIGNER}`;

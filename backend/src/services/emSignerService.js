@@ -111,7 +111,19 @@ const envoyerDocumentPourSignature = async (documentId) => {
       }
     });
 
-    console.log("✅ Document envoyé à EmSigner avec succès");
+    const workflowId = response.data?.Response?.WorkflowId;
+
+    if (workflowId) {
+      await prisma.document.update({
+        where: { id: document.id },
+        data: { workflowId: workflowId}
+      });
+
+      console.log(`Document envoye avec succes. Workflow : ${workflowId}`)
+    } else {
+      console.warn("WorkflowId non trouve dans la reponse.")
+    }
+
     return response.data;
 
   } catch (error) {
