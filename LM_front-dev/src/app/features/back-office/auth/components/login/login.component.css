@@ -1,0 +1,32 @@
+.card{
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 2px 2px 64px -4px rgba(0, 0, 0, 0.11);
+  padding: 0;
+  margin: 0;
+}
+
+
+.card-body{
+  padding: 20px;
+
+}
+
+.card-title{
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+
+.btn{
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 20px;
+  background-color: blue;
+  color:white;
+  border: none;
+}
+

@@ -1,0 +1,137 @@
+/* card custom */
+.card,
+.card.card-article {
+  overflow: hidden;
+  border-radius: 8px;
+  transition: transform 0.3s ease-in-out;
+
+  border: none;
+  position: relative;
+  cursor: pointer;
+}
+
+.card-img-top {
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+  display: block;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.07);
+}
+
+.card:hover .card-title {
+  color: #ff477e;
+}
+
+.card .card-title,
+.card.card-article .card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  /* Limite le texte à 3 lignes */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "Lato", sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.card .card-desc,
+.card.card-article .card-desc {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  /* Limite le texte à 3 lignes */
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  color: #5a6c90;
+  font-family: "Lato", sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.card.card-article .button-text {
+  opacity: 0;
+}
+
+.card.card-article img,
+.card.card-article video {
+  height: 180px;
+  width: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.card.card-article:hover {
+  transform: scale(1.02);
+  background-color: #fff;
+  box-shadow: 0 5px 25px rgb(1 1 1 / 10%);
+  /* box-shadow: 0px 0px 32px 0px rgba(136, 152, 170, 0.15); */
+}
+
+.card.card-article:hover .button-text {
+  opacity: 1;
+}
+
+.card.card-horiz {
+  border: none;
+  border-radius: 0;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.card.card-horiz:hover {
+  transform: scale(1.02);
+  background-color: #fff;
+  box-shadow: 0px 0px 32px 0px rgba(136, 152, 170, 0.15);
+}
+
+.card-horiz.card-horiz-sm img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  /* max-height: 120px; */
+}
+
+.card-horiz .card-text.card-desc-sm {
+  font-size: 13px !important;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  /* Limite le texte à 3 lignes */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-horiz .card-title-sm {
+  font-size: 13px !important;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  /* Limite le texte à 3 lignes */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+a.button-text,
+button.button-text {
+  padding: 5px 10px 5px 10px !important;
+  font-size: 14px;
+  background: #fff;
+  color: #ff477e;
+}
+
+a.button-text:hover,
+button.button-text:hover {
+  background-color: rgba(255, 71, 126, 0.1);
+}

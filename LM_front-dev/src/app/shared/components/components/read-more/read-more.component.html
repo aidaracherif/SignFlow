@@ -1,0 +1,3 @@
+<p class="text">{{ displayContent }}</p>
+<a href="javascript:void(0)" *ngIf="!isContentToggled" (click)="toggleContent()">{{ 'EnSavoirPlus' }}</a>
+<a href="javascript:void(0)" *ngIf="isContentToggled" (click)="toggleContent()">{{ 'LireMoins' }}</a>

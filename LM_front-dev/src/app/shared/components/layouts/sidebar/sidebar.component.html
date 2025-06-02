@@ -1,0 +1,58 @@
+
+<aside id="sidebar-wrapper">
+  <div class="sidebar-brand">
+    <img src="assets/images/logo.svg" alt="Confiance factory" title="Confiance factory">
+  </div>
+  <ul class="sidebar-nav">
+    <li class="nav-item" *ngFor="let menu of menuItems">
+      <a class="nav-link" [routerLink]="[menu.path]" routerLinkActive="active">
+        <i class="material-icons">{{ menu.icon }}</i>
+        <span>{{ menu.label }}</span>
+      </a>
+    </li>
+  </ul>
+</aside>
+
+<div id="navbar-wrapper">
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <!-- Breadcrumb -->
+        <a href="#" class="navbar-brand d-block d-lg-none text-white"  id="sidebar-toggle"><i class="material-icons">menu</i></a>
+       <div class="d-none d-lg-block">
+        <app-breadcrumb></app-breadcrumb>
+       </div>
+
+        <div class="user-wrapper dropdown">
+          <div class="user-avatar">
+            LY
+          </div>
+          <span class="user-content">
+            <span>Libasse YADE</span>
+            <span>Admin Général</span>
+          </span>
+
+          <button class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          </button>
+          <ul class="dropdown-menu dropdown-menu-lg-end">
+            <li>
+              <a class="dropdown-item d-flex align-items-center"  href="javascript:(0)">
+                <i class="material-icons me-2">person</i>
+                <span>Mon compte</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="javascript:(0)" data-bs-toggle="modal" routerLink="/auth/login"
+                data-bs-target="#logoutConfirm">
+                <i class="material-icons me-2">logout</i>
+                <span>Déconnexion</span>
+              </a>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+

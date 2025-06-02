@@ -1,0 +1,14 @@
+<div class="box-service" (click)="onCardClick()">
+  <div class="box-images">
+    <img [src]="image" [alt]="name" />
+    <div class="desc-box-service">
+      <h5>{{ name }}</h5>
+      <p>{{ description }}</p>
+      <div class="d-flex w-100 align-items-center justify-content-center">
+        <button class="box-btn" (click)="onCardClick()" type="button">
+          Voir plus <span><i class="material-icons">arrow_forward</i></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

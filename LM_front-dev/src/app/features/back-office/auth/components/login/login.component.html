@@ -1,0 +1,24 @@
+<h2 class="text-center">Authentification</h2>
+<form>
+  <div class="row mt-5 g-3">
+    <div class="col-sm-12 ">
+      <label class="form-label">Identifiant</label>
+      <input type="text" class="form-control" placeholder="Saisir">
+    </div>
+    <div class="col-sm-12">
+      <label class="form-label">Mot de passe</label>
+      <div class="input-group input-custom-group">
+        <input class="form-control"
+          placeholder="*******">
+      </div>
+    </div>
+    <div class="col-md-12">
+      <a [routerLink]="['/auth/forgot-password']" title="Mot de passe oublié" class="text-span d-flex justify-content-end my-2 text-blue"
+    ><small>Mot de passe oublié ?</small></a>
+    </div>
+    <div class="col-md-12">
+      <button class="button button-primary w-100" type="button" [routerLink]="['/utilisateurs']">Se
+        connecter</button>
+    </div>
+  </div>
+</form>

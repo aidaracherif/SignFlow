@@ -1,0 +1,69 @@
+.breadcrumb-item+.breadcrumb-item::before {
+  content: ' ' !important
+}
+
+/* ================= breacrumb =========== */
+a,
+a:hover,
+a:focus {
+  text-decoration: none;
+}
+
+.cd-breadcrumb {
+  margin: 0;
+  padding: 0;
+}
+
+.cd-breadcrumb li {
+  display: inline-block;
+  text-align: left !important;
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.cd-breadcrumb li::after {
+  /* this is the separator between items */
+  display: inline-block;
+  content: '\00bb';
+  margin: 0 .6em;
+  color: #959fa5;
+}
+
+.cd-breadcrumb li:last-of-type::after {
+  /* hide separator after the last item */
+  display: none;
+}
+
+.cd-breadcrumb li:last-of-type {
+  color: #959fa5;
+}
+
+.cd-breadcrumb li>a {
+  /* single step */
+  display: inline-block;
+  font-size: .9em !important;
+  color: #fff;
+  /* color: #fff; */
+}
+
+.cd-breadcrumb li.current {
+  /* selected step */
+  color: #959fa5;
+}
+
+.no-touch .cd-breadcrumb a:hover {
+  /* steps already visited */
+  color: var(--primary-color);
+}
+
+.cd-breadcrumb.custom-separator li::after {
+  /* replace the default separator with a custom icon */
+  content: '';
+  height: 16px;
+  width: 16px;
+  background: url(https://codyhouse.co/demo/breadcrumbs-multi-steps-indicator/img/cd-custom-separator.svg) no-repeat center center;
+  vertical-align: middle;
+}
