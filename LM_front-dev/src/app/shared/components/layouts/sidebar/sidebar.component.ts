@@ -5,11 +5,10 @@ import { CommonModule } from '@angular/common';
 import { BreadcrumbComponent } from '../../breadcrumb/breadcrumb.component';
 
 @Component({
-  selector: 'app-sidebar',
-  standalone: true,
-  imports: [BreadcrumbComponent , RouterModule  ,CommonModule],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.css'
+    selector: 'app-sidebar',
+    imports: [BreadcrumbComponent, RouterModule, CommonModule],
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent implements OnInit {
 

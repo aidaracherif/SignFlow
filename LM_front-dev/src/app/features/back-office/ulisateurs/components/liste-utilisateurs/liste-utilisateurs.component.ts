@@ -6,11 +6,10 @@ import { NgbPaginationModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap'
 import { TableModule } from 'primeng/table';
 
 @Component({
-  selector: 'app-liste-utilisateurs',
-  standalone: true,
-  imports: [TableModule, CommonModule ],
-  templateUrl: './liste-utilisateurs.component.html',
-  styleUrl: './liste-utilisateurs.component.css'
+    selector: 'app-liste-utilisateurs',
+    imports: [TableModule, CommonModule],
+    templateUrl: './liste-utilisateurs.component.html',
+    styleUrl: './liste-utilisateurs.component.css'
 })
 export class ListeUtilisateursComponent implements OnInit {
   products = [
