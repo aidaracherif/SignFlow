@@ -3,6 +3,14 @@ const prisma = new PrismaClient();
 const { generateCongePDF } = require('../services/pdfService');
 const path = require('path');
 const fs = require('fs')
+const pdfPath = path.join(__dirname, '../pdfs/conge.pdf');
+
+if (!fs.existsSync(pdfPath)) {
+  throw new Error(`Fichier PDF non trouvé à : ${pdfPath}`);
+}
+
+const fileBase64 = fs.readFileSync(pdfPath).toString('base64');
+const { envoyerDocumentPourSignature } = require('../services/emsignerService');
 
 
 
@@ -83,20 +91,21 @@ const createDocument = async (req, res) => {
 };
 
 const getDocuments = async (req, res) => {
-    try {
-        const documents = await prisma.document.findMany({
-            include: {
-                client: true,
-                agent: true,
-                employe: true
-            }
-        });
-        res.json(documents);
-    } catch (error) {
-        console.error("Erreur lors de la récupération des documents:", error);
-        res.status(500).json({ message: "Erreur interne du serveur" });
-    }
+  try {
+    const documents = await prisma.document.findMany({
+      include: {
+        client: true,
+        agent: true,
+        employe: true // Ici, on garde "employe", qui est bien défini dans le schéma
+      }
+    });
+    res.json(documents);
+  } catch (error) {
+    console.error("Erreur lors de la récupération des documents:", error);
+    res.status(500).json({ message: "Erreur interne du serveur" });
+  }
 };
+
 const archiveDocument = async (req, res) => {
     const { id } = req.params;
 
@@ -214,7 +223,7 @@ const generateConge = async (req, res) => {
             fs.mkdirSync(pdfDir);
         }
 
-        const fileName = `demande_conge_${document.id}_${Date.now()}.pdf`;
+        const fileName = `demande_conge_${document.id}.pdf`;
         const outputPath = path.join(pdfDir, fileName);
 
         await generateCongePDF(congeData, outputPath);
@@ -225,6 +234,18 @@ const generateConge = async (req, res) => {
         return res.status(500).json({ message: "Erreur lors de la génération de la demande de congé." });
     }
 };
+const envoyerPourSignature = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const resultat = await envoyerDocumentPourSignature(id);
+        res.status(200).json({
+            message: "Document envoye pour signature via Emsigner",
+            resultat
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message});
+    }
+};
 
 
 module.exports = {
@@ -233,5 +254,7 @@ module.exports = {
     getArchiveDocuments,
     getActiveDocuments,
     archiveDocument,
-    generateConge
+    generateConge,
+    envoyerPourSignature
+
 };
