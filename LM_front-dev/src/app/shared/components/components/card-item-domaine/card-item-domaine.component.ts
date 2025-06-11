@@ -3,10 +3,11 @@ import { CommonModule } from '@angular/common';
 import { ReadMoreComponent } from "../read-more/read-more.component";
 
 @Component({
-    selector: "app-card-item-domaine",
-    templateUrl: "./card-item-domaine.component.html",
-    styleUrls: ["./card-item-domaine.component.css"],
-    imports: [CommonModule, ReadMoreComponent, ReadMoreComponent]
+  selector: "app-card-item-domaine",
+  standalone: true,
+  templateUrl: "./card-item-domaine.component.html",
+  styleUrls: ["./card-item-domaine.component.css"],
+  imports: [CommonModule, ReadMoreComponent, ReadMoreComponent],
 })
 export class CardItemDomaineComponent {
 

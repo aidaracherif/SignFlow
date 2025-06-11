@@ -1,0 +1,238 @@
+<!-- <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Contrats - Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                ODS
+            </div>
+            
+            <div class="menu-header">Menu Principal</div>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-chart-line"></i>
+                Tableau de bord
+            </a>
+            
+            <a href="#" class="menu-item active">
+                <i class="fas fa-file-contract"></i>
+                Gestion des contrats
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-users"></i>
+                Gestion des clients
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-calendar-alt"></i>
+                Gestion des congés
+            </a>
+            
+            <a href="#" class="menu-item">
+                <i class="fas fa-cog"></i>
+                Paramètres
+            </a>
+            
+            <div class="user-section">
+                <a href="#" class="menu-item">
+                    <i class="fas fa-user"></i>
+                    Mon compte
+                </a>
+                
+                <a href="#" class="menu-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Se déconnecter
+                </a>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="header">
+                <h1 class="page-title">Bienvenue sur votre tableau de bord</h1>
+                <div class="admin-profile">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Admin</span>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-number">70</div>
+                    <div class="stat-label">Nombre total de contrats</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">50</div>
+                    <div class="stat-label">Contrats signés</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20</div>
+                    <div class="stat-label">Contrats non signés</div>
+                </div>
+            </div>
+            
+            <div class="table-section">
+                <div class="table-header">
+                    <div class="search-container">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Rechercher un utilisateur...">
+                    </div>
+                    <button class="add-btn">
+                        <i class="fas fa-plus"></i>
+                        Ajouter un utilisateur
+                    </button>
+                </div>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nom</th>
+                                <th>Prénom</th>
+                                <th>Rôle</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Aidara</td>
+                                <td>Mame Diarra</td>
+                                <td><span class="role-badge role-agent">Agent</span></td>
+                                <td>
+                                    <button class="action-btn view-btn" title="Voir">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Diop</td>
+                                <td>Yvonne</td>
+                                <td><span class="role-badge role-rh">RH</span></td>
+                                <td>
+                                    <button class="action-btn view-btn" title="Voir">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>Fall</td>
+                                <td>Abdou</td>
+                                <td><span class="role-badge role-employe">Employé</span></td>
+                                <td>
+                                    <button class="action-btn view-btn" title="Voir">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn edit-btn" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="action-btn delete-btn" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.search-container input').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+
+        // Animation des cartes de statistiques
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        document.querySelectorAll('.action-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const action = this.classList.contains('view-btn') ? 'voir' : 
+                              this.classList.contains('edit-btn') ? 'modifier' : 'supprimer';
+                const row = this.closest('tr');
+                const name = row.cells[1].textContent + ' ' + row.cells[2].textContent;
+                
+                if (action === 'supprimer') {
+                    if (confirm(`Êtes-vous sûr de vouloir supprimer ${name} ?`)) {
+                        row.style.animation = 'fadeOut 0.3s ease forwards';
+                        setTimeout(() => row.remove(), 300);
+                    }
+                } else {
+                    alert(`Action: ${action} pour ${name}`);
+                }
+            });
+        });
+    </script>
+
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+        }
+    </style>
+</body>
+</html> -->
+
+<h1>Accueil</h1>
