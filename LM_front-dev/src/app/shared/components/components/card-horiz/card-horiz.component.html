@@ -1,0 +1,23 @@
+<div class="card card-horiz card-horiz-sm h-auto" (click)="onCardClick()">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img *ngIf="image" [src]="image" [alt]="title" class="img-fluid rounded-start" height="100">
+
+  <video controls class="w-100" *ngIf="video">
+    <source [src]="video" />
+  </video>
+
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title card-title-sm" *ngIf="title">{{ title }}</h5>
+        <!-- <p class="card-text card-desc-sm">{{ description }}</p> -->
+        <div class="dflex-start">
+          <p class="card-text p-0 m-0" *ngIf="createdDate">
+            <small class="text-muted"><i class="fa fa-calendar-alt"></i> {{ createdDate }}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

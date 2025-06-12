@@ -1,0 +1,29 @@
+.centre-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+.centre-box .centre-box-container {
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 2px 2px 64px -4px rgba(0, 0, 0, 0.11);
+  padding: 0;
+  margin: 0;
+}
+
+.card-form #logo {
+  display: block;
+  margin: 0 auto 30px auto;
+}
+
+.bg-grey{
+  background-color: #E5F0F7;
+}
+
+.img-left{
+  max-height: 420px;
+  display: block;
+  margin: 0 auto;
+}

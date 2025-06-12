@@ -2,7 +2,7 @@ const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 require('dotenv').config();
-const { authenticateEmsigner } = require('./emsignerService');
+const { authenticateEmsigner } = require('./emsignerService'); // Assurez-vous que cette fonction est exportée depuis emSignerService.js
 
 const EMSIGNER_DOWNLOAD_URL = 'https://demoapi.emsigner.com/api/DownloadWorkflowDocuments';
 

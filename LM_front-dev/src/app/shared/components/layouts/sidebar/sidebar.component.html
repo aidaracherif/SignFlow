@@ -1,0 +1,79 @@
+<aside id="sidebar-wrapper">
+  <div>
+      <div class="sidebar-brand">
+          <div class="sidebar-brand-logo">
+            <img src="assets/icons/logo-orbus-sso.svg" alt="Gaindé SSO" title="Gaindé SSO" class="me-2">
+            <span>LOGO</span>
+          </div>
+      </div>
+
+      <ul class="sidebar-nav">
+        @for (menu of menuItems; track menu.menId) {
+        <li class="nav-item">
+          <ng-container *ngIf="!menu.childrens || menu.childrens.length === 0">
+            <a class="nav-link" [routerLink]="[menu.menPath]" routerLinkActive="active">
+              <!-- <i-lucide [name]="menu.menIconType"></i-lucide> -->
+              <i class="material-icons">{{menu.menIconType}}</i>
+
+              <span>{{ menu.menTitle }}</span>
+            </a>
+          </ng-container>
+
+          <ng-container *ngIf="menu.childrens && menu.childrens.length > 0">
+            <a class="nav-link nav-link-sub" data-bs-toggle="collapse" [attr.href]="'#subMenu-' + menu.menPath" role="button"
+              aria-expanded="false" [ngClass]="{ active: isSubMenuActive(menu) }"
+              [attr.aria-controls]="'subMenu-' + menu.menPath" (click)="toggleSubMenu(menu)">
+              <div class="icon_text">
+                <i class="material-icons">{{menu.menIconType}}</i>
+                <span>{{ menu.menTitle }}</span>
+              </div>
+
+            </a>
+            <ul class="navs collapse sub-menu" [id]="'subMenu-' + menu.menPath"
+              [ngClass]="{ show: isSubMenuActive(menu) || menuState[menu.menPath] }">
+              <li class="nav-item" *ngFor="let subMenu of menu.childrens">
+                <a class="nav-link" [routerLink]="subMenu.menPath" routerLinkActive="active"
+                  (click)="closeMenuIfNotSubMenu($event, menu)">
+                  <span>{{ subMenu.menTitle }}</span>
+                </a>
+              </li>
+            </ul>
+          </ng-container>
+        </li>
+        }
+      </ul>
+  </div>
+    <div class="sidebar-footer">
+        <div class="user-wrapper dropdown">
+          <div class="d-flex align-items-center my-3">
+            <div class="user-avatar me-2">
+              <img src="assets/images/user-profil.jpg" alt="Mon profil">
+            </div>
+            <span class="user-content">
+              <span>Bassirou Thiam</span>
+              <span>Super Admin</span>
+            </span>
+          </div>
+
+          <div class="dropdown">
+            <button class="fab-button" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="material-icons">more_vert</i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-lg-end">
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="javascript:(0)">
+
+                  <span class="ms-2">Mon compte</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item d-flex align-items-center" href="javascript:(0)" data-bs-toggle="modal"
+                  (click)="logOut()" data-bs-target="#logoutConfirm">
+                  <span class="ms-2">Déconnexion</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </div>
+  </aside>

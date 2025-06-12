@@ -1,3 +1,4 @@
+
 const { PrismaClient, TypeConge, TypeDoc } = require('@prisma/client');
 const prisma = new PrismaClient();
 const { generateCongePDF } = require('../services/pdfService');
@@ -14,17 +15,18 @@ const { envoyerDocumentPourSignature } = require('../services/emsignerService');
 
 
 
+
 const createDocument = async (req, res) => {
     try {
         const {
             typeDocument,
             titre,
             description,
+            status,
             idClient,
             idAgent,
             idEmploye,
             objetContrat,
-            status,
             duree,
             montant,
             conditionGenerale,
@@ -34,7 +36,7 @@ const createDocument = async (req, res) => {
             motif
         } = req.body;
 
-        if (!typeDocument || !titre ) {
+        if (!typeDocument || !titre  || !status) {
             return res.status(400).json({ message: "Champs obligatoires manqunats"});
         }
 
@@ -48,6 +50,7 @@ const createDocument = async (req, res) => {
             idEmploye,
             objetContrat,
             duree: duree ? new Date(duree) : undefined,
+            duree: duree || undefined,
             montant,
             conditionGenerale,
             dateDebut: dateDebut ? new Date(dateDebut) : undefined,
@@ -64,6 +67,13 @@ const createDocument = async (req, res) => {
             data.montant = montant;
             data.status =  "En attente";
             data.conditionGenerale = conditionGenerale;
+            if (!objetContrat || !duree || !montant) {
+                return res.status(400).json({ message: "Champs obligatoires manquants pour le type de document contrat" });
+            }
+            data.objetContrat = objetContrat;
+            data.duree = duree;
+            data.montant = montant;
+            // data.conditionGenerale = conditionGenerale;
         } 
         else if (typeDocument === TypeDoc.CONGE) {
             if (!dateDebut || !dateFin || !typeConge || !motif) {
@@ -105,6 +115,7 @@ const getDocuments = async (req, res) => {
     res.status(500).json({ message: "Erreur interne du serveur" });
   }
 };
+
 
 const archiveDocument = async (req, res) => {
     const { id } = req.params;
@@ -194,6 +205,8 @@ const generateConge = async (req, res) => {
         const document = await prisma.document.findUnique({
             where: { id: documentId },
             include: {
+                client: true,
+                agent: true,
                 employe: true
             }
         });
@@ -201,6 +214,7 @@ const generateConge = async (req, res) => {
         if (!document) {
             return res.status(404).json({ message: 'Document introuvable.' });
         }
+
 
         const congeData = {
             titre: document.titre || "Demande de congé",
@@ -216,12 +230,13 @@ const generateConge = async (req, res) => {
                 poste: document.employe?.poste || "poste employé inconnu",
                 departement: document.employe?.departement || "departement employé inconnu"
             }
-        };
-
-        const pdfDir = path.join(__dirname, '../pdfs');
-        if (!fs.existsSync(pdfDir)) {
-            fs.mkdirSync(pdfDir);
         }
+
+
+    const pdfDir = path.join(__dirname, '../pdfs');
+    if (!fs.existsSync(pdfDir)) {
+        fs.mkdirSync(pdfDir);
+    }
 
         const fileName = `demande_conge_${document.id}.pdf`;
         const outputPath = path.join(pdfDir, fileName);
@@ -233,7 +248,14 @@ const generateConge = async (req, res) => {
         console.error("Erreur lors de la génération de la demande de congé :", error);
         return res.status(500).json({ message: "Erreur lors de la génération de la demande de congé." });
     }
+
 };
+
+const formatDuree = (dateObj) => {
+    if (!dateObj) return 'Duree non precisee';
+    return new Date(dateObj).toLocaleDateString('fr-FR')
+};
+
 const envoyerPourSignature = async (req, res) => {
     const { id } = req.params;
     try {

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 const {
     createDocument,
     getDocuments,
@@ -10,6 +11,7 @@ const {
     generateConge,
     envoyerPourSignature
 } = require('../controllers/documentController');
+
 const { isAuthenticated } = require('../middleware/auth');
 const { getWorkFlowStatus } = require('../services/emSignerTrackingService');
 const { downloadSignedDocument } = require('../services/downloadDocument');
@@ -87,6 +89,16 @@ const { downloadSignedDocument } = require('../services/downloadDocument');
  */
 router.post('/documents', isAuthenticated, createDocument);
 router.post('/documents/:id/signature', envoyerPourSignature);
+
+
+router.post('/documents', isAuthenticated, createDocument);
+router.get('/documents/archives', isAuthenticated, getArchiveDocuments);
+router.get('/documents/actifs', isAuthenticated, getActiveDocuments);
+router.put('/documents/archiver/:id', isAuthenticated, archiveDocument);
+router.get('/documents/:id/contrat-pdf', isAuthenticated, generateConge);
+router.post('/documents/:id/signature', envoyerPourSignature);
+
+
 router.get('/documents/status', async (req, res) => {
     const workflowId = req.query.workflowId;
     if (!workflowId) {
@@ -175,5 +187,6 @@ router.get('/documents/actifs', isAuthenticated, getActiveDocuments);
  */
 router.put('/documents/archiver/:id', isAuthenticated, archiveDocument);
 router.get('/documents/:id/conge-pdf', isAuthenticated, generateConge)
+
 
 module.exports = router;

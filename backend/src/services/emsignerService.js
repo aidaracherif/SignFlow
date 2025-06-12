@@ -3,15 +3,19 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const { PrismaClient } = require('@prisma/client');
-const { signerDocumentCloudSign } = require('./cloudsignService');
+const { file } = require('pdfkit');
+const { signerDocumentCloudSign } = require('./cloudSignService');
 const prisma = new PrismaClient();
+
 
 const EMSIGNER_SEND_URL = 'https://demoapi.emsigner.com/api/initiateEmbeddedSigning';
 
 const EMSIGNER_CREDENTIALS = {
   Username: process.env.EMSIGNER_USER,
   Password: process.env.EMSIGNER_PASSWORD,
+//   GrantType: 'password'
 };
+
 
 const authenticateEmsigner = async () => {
   try {
@@ -26,35 +30,38 @@ const authenticateEmsigner = async () => {
       }
     });
 
+
     console.log("Token récupéré avec succès :", response.data);
     if (response.data.IsSuccess) {
-      return response.data.Response.AuthToken;
+      return response.data.Response.AuthToken; // ✅ Seul le token
     } else {
       throw new Error(response.data.Messages?.[0] || "Échec de l'authentification");
     }
+    
+
   } catch (error) {
     console.error("Échec de l'authentification :", error.response?.data || error.message);
     throw error;
   }
 };
 
+
 const envoyerDocumentPourSignature = async (documentId) => {
   try {
-    await signerDocumentCloudSign(documentId); // Appel facultatif selon ton besoin
 
-    const token = await authenticateEmsigner();
+    await signerDocumentCloudSign(documentId); 
+    const token = await authenticateEmsigner(); 
 
     const document = await prisma.document.findUnique({
       where: { id: parseInt(documentId) },
-      include: { employe: true }
+      include: { client: true }
     });
 
-    if (!document || !document.employe) {
+    if (!document || !document.client) {
       throw new Error('Document ou client non trouvé');
     }
 
-    // Chemin fixe pour "conge.pdf"
-    const fileName = `demande_conge_${document.id}.pdf` ;
+    const fileName = `contrat_${document.id}.pdf`;
     const pdfPath = path.join(__dirname, '../pdfs', fileName);
 
     if (!fs.existsSync(pdfPath)) {
@@ -62,38 +69,40 @@ const envoyerDocumentPourSignature = async (documentId) => {
     }
 
     const fileBase64 = fs.readFileSync(pdfPath).toString('base64');
-
+   
     const payload = {
-      "Name": "Document_conge",
-      "EmailId": EMSIGNER_CREDENTIALS.Username,
-      "RedirectURL": "",
-      "SignatoryEmailIds": [
-        document.employe.email
-      ],
-      "SignatureSettings": [
-        {
-          "Name": "adhocuser",
-          "ModeOfSignature": "3"
-        }
-      ],
-      "lstDocumentDetails": [
-        {
-          "DocumentName": "conge.pdf",
-          "FileData": fileBase64,
-          "ControlDetails": [
+      
+        "Name": "Contrat_" + document.id,
+        "EmailId": EMSIGNER_CREDENTIALS.Username,
+        "RedirectURL": "",
+        "SignatoryEmailIds": [
+            document.client.email
+        ],
+        "SignatureSettings": [
             {
-              "PageNo": 1,
-              "ControlID": 4,
-              "AssignedTo": 1,
-              "Left": 65,
-              "Top": 331,
-              "Height": 272,
-              "Width": 184
+                    "Name": "adhocuser",
+                    "ModeOfSignature": "3"
+                }
+        ],
+        "lstDocumentDetails": [
+            {
+            "DocumentName": "Contrat_" + document.id + ".pdf",
+            "FileData": fileBase64,
+            "ControlDetails": [
+                {
+                "PageNo": 3,
+                "ControlID": 4,
+                "AssignedTo": 1,
+                "Left": 64,
+                "Top": 738,
+                "Height": 678,
+                "Width": 184
+                }
+            ]
             }
-          ]
-        }
-      ]
+        ]
     };
+
 
     const response = await axios.post(EMSIGNER_SEND_URL, payload, {
       headers: {
@@ -102,7 +111,7 @@ const envoyerDocumentPourSignature = async (documentId) => {
       }
     });
 
- const workflowId = response.data?.Response?.WorkflowId;
+    const workflowId = response.data?.Response?.WorkflowId;
 
     if (workflowId) {
       await prisma.document.update({
