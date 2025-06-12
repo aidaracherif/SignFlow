@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
-    selector: 'app-card-horiz',
-    imports: [CommonModule],
-    templateUrl: './card-horiz.component.html',
-    styleUrl: './card-horiz.component.css'
+  selector: 'app-card-horiz',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './card-horiz.component.html',
+  styleUrl: './card-horiz.component.css'
 })
 export class CardHorizComponent {
 

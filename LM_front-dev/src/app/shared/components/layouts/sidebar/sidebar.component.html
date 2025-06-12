@@ -1,3 +1,4 @@
+
 <aside id="sidebar-wrapper">
   <div>
       <div class="sidebar-brand">
@@ -13,7 +14,11 @@
           <ng-container *ngIf="!menu.childrens || menu.childrens.length === 0">
             <a class="nav-link" [routerLink]="[menu.menPath]" routerLinkActive="active">
               <!-- <i-lucide [name]="menu.menIconType"></i-lucide> -->
-              <i class="material-icons">{{menu.menIconType}}</i>
+              <!-- <i class="material-icons">{{menu.menIconType}}</i> -->
+               <span class="material-icons">
+{{menu.menIconType}}
+</span>
+              
 
               <span>{{ menu.menTitle }}</span>
             </a>

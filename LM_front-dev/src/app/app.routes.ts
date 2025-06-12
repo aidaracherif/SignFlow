@@ -15,6 +15,13 @@ export const routes: Routes = [
         (routes) => routes.userRoutes
       ),
   },
+  {
+    path: "dashboard",
+    loadChildren: () =>
+      import("./features/back-office/dashboard/dashboard.routes").then(
+        (routes) => routes.dashboardRoutes
+      ),
+  },
 
   {
     path: "dashboard",

@@ -9,8 +9,8 @@ import { NgFor, AsyncPipe } from '@angular/common';
     selector: 'app-breadcrumb',
     templateUrl: './breadcrumb.component.html',
     styleUrls: ['./breadcrumb.component.css'],
-    imports: [NgFor, RouterLink, AsyncPipe],
-    standalone: true
+    standalone: true,
+    imports: [NgFor, RouterLink, AsyncPipe]
 })
 export class BreadcrumbComponent implements OnInit {
 

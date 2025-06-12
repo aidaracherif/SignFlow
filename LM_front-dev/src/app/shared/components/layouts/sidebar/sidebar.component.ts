@@ -48,53 +48,53 @@ menuItems: IMenu[] = [
     },
     {
         menId: 3,
-        menTitle: 'Gestion projet',
-        menPath: '/gestion-projet',
-        menIconType: 'analytics',
+        menTitle: 'Gestion des contrats',
+        menPath: '/gestion-contrats',
+        menIconType: 'contract',
         childrens: []
     },
     {
         menId: 4,
-        menTitle: 'Gestion des tâches',
+        menTitle: 'Gestion des conges',
         menPath: '/gestion-tache',
-        menIconType: 'list_alt',
+        menIconType: 'contract',
         childrens: []
     },
     {
         menId: 5,
-        menTitle: 'gestion des ressources',
+        menTitle: 'gestion des clients',
         menPath: '/gestion-ressource',
         menIconType: 'manage_accounts',
         childrens: []
     },
-    {
-        menId: 6,
-        menTitle: 'gestion des budget',
-        menPath: '/gestion-budget',
-        menIconType: 'point_of_sale',
-        childrens: []
-    },
-    {
-        menId: 7,
-        menTitle: 'gestion des dépenses',
-        menPath: '/gestion-des-depenses',
-        menIconType: 'shopping_bag',
-        childrens: []
-    },
-    {
-        menId: 8,
-        menTitle: 'gestion des fournisseurs',
-        menPath: '/gestion-des-fournisseurs',
-        menIconType: 'local_shipping',
-        childrens: []
-    },
-    {
-        menId: 9,
-        menTitle: 'gestion stocks',
-        menPath: '/gestion-des-stocks',
-        menIconType: 'inventory_2',
-        childrens: []
-    },
+    // {
+    //     menId: 6,
+    //     menTitle: 'gestion des budget',
+    //     menPath: '/gestion-budget',
+    //     menIconType: 'point_of_sale',
+    //     childrens: []
+    // },
+    // {
+    //     menId: 7,
+    //     menTitle: 'gestion des dépenses',
+    //     menPath: '/gestion-des-depenses',
+    //     menIconType: 'shopping_bag',
+    //     childrens: []
+    // },
+    // {
+    //     menId: 8,
+    //     menTitle: 'gestion des fournisseurs',
+    //     menPath: '/gestion-des-fournisseurs',
+    //     menIconType: 'local_shipping',
+    //     childrens: []
+    // },
+    // {
+    //     menId: 9,
+    //     menTitle: 'gestion stocks',
+    //     menPath: '/gestion-des-stocks',
+    //     menIconType: 'inventory_2',
+    //     childrens: []
+    // },
     {
         menId: 10,
         menTitle: 'Rapport',
@@ -165,3 +165,5 @@ closeMenuIfNotSubMenu(event: MouseEvent, menu: any) {
     event.stopPropagation(); // Empêche la propagation de l'événement
 }
 }
+
+

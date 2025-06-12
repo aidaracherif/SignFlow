@@ -4,7 +4,7 @@
 @import 'material-icons/iconfont/material-icons.css';
 
 :root{
-  --primary-color:rgba(28, 94, 171, 1); /* #1C5EAB  */
+  --primary-color:rgb(255, 255, 255); /* #1C5EAB  */
   --secondary-color: rgba(249, 245, 249, 1);
 
   --color-border-input: #CED4DA;
@@ -396,3 +396,7 @@ background: linear-gradient(112deg, #d9d9d9 4.92%, #1c5eab 88.6%) !important;
 .light-background{
 background: #F7FAFC;
 }
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

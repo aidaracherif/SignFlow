@@ -4,16 +4,17 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
-    selector: 'app-main',
-    templateUrl: './main.component.html',
-    styleUrl: './main.component.css',
-    standalone: true,
-    imports: [
-        CommonModule,
-        RouterOutlet,
-        RouterModule,
-        SidebarComponent
-    ]
+  selector: 'app-main',
+  standalone: true,
+  templateUrl: './main.component.html',
+  styleUrl: './main.component.css',
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    RouterModule,
+    SidebarComponent
+]
+
 })
 export class MainComponent {
 

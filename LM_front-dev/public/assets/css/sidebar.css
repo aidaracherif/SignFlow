@@ -95,7 +95,7 @@
   column-gap: 14px;
   padding: 12px 16px;
   text-decoration: none;
-  color: rgba(107, 114, 128, 1);
+  color: rgb(49, 48, 48);
   font-weight: 500;
   font-size: 16px;
   transition: all 0.3s ease-in;
@@ -109,12 +109,12 @@
 
 .sidebar-nav>li a.active {
   color: var(--primary-color);
-  background: rgba(224, 236, 244, 1);
+  background: rgb(242, 151, 82);
 }
 
 .sidebar-nav>li>a:hover {
   /* color: #fff; */
-  background: #f5f5f5;
+  background: #ff9e49;
 }
 
 .sidebar-nav>li>a i.fa {
